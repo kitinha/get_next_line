@@ -26,7 +26,7 @@ char	*get_next_line(int fd)
 		line = ft_strjoin(line, buffer);
 		if (!line)
 			return (NULL);
-		ft_move(buffer);
+		ft_consume_line(buffer);
 		len = ft_strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
 			return (line);
