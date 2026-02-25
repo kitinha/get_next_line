@@ -30,7 +30,7 @@ char	*ft_strjoin(char *line, char *buffer)
 	int		j;
 	char	*str;
 
-	str = malloc(length(line) + length(buffer) + 1);
+	str = malloc(ft_strlen(line) + ft_strlen(buffer) + 1);
 	if (!str)
 		return (free(line), NULL);
 	i = 0;
