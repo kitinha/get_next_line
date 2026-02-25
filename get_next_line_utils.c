@@ -3,62 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ineguill <ineguill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/15 18:58:50 by marvin            #+#    #+#             */
-/*   Updated: 2026/01/15 18:58:50 by marvin           ###   ########.fr       */
+/*   Created: 2026/02/23 21:20:15 by ineguill          #+#    #+#             */
+/*   Updated: 2026/02/25 18:17:52 by ineguill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
-    size_t	len = 0;
+	size_t	len;
 
-    if (!s)
-        return (0);
-    while (s[len] != '\0')
-        len++;
-    return (len);
-}
-char	*ft_strjoin(char *s1, char *s2)
-{
-    size_t	len1 = ft_strlen(s1);
-    size_t	len2 = ft_strlen(s2);
-    char	*joined;
-    size_t	i, j;
-
-    joined = (char *)malloc(len1 + len2 + 1);
-    if (!joined)
-        return (NULL);
-    i = 0;
-    j = 0;
-    while (i < len1)
-    {
-        joined[i] = s1[i];
-        i++;
-    }
-    while (j < len2)
-    {
-        joined[i + j] = s2[j];
-        j++;
-    }
-    joined[i + j] = '\0';
-    free(s1);
-    return (joined);
+	len = 0;
+	if (!s)
+		return (0);
+	while (s[len] != '\0')
+		len++;
+	return (len);
 }
 
-void    ft_bzero(void *s, size_t n)
+char	*ft_strjoin(char *line, char *buffer)
 {
-    size_t  i;
-    unsigned char *ptr;
+	int		i;
+	int		j;
+	char	*str;
 
-    ptr = (unsigned char *)s;
-    i = 0;
-    while (i < n)
-    {
-        ptr[i] = 0;
-        i++;
-    }
+	str = malloc(length(line) + length(buffer) + 1);
+	if (!str)
+		return (free(line), NULL);
+	i = 0;
+	while (line && line[i])
+	{
+		str[i] = line[i];
+		i++;
+	}
+	j = 0;
+	while (buffer[j] && buffer[j] != '\n')
+	{
+		str[i + j] = buffer[j];
+		j++;
+	}
+	if (buffer[j] == '\n')
+		str[i + j++] = '\n';
+	str[i + j] = '\0';
+	return (free(line), str);
+}
+
+void	ft_consume_line(char *buffer)
+{
+	int	r;
+	int	b;
+
+	r = 0;
+	b = 0;
+	while (buffer[b] != '\n' && buffer[b])
+		b++;
+	if (buffer[b] == '\n')
+		b++;
+	while (buffer[r])
+	{
+		buffer[r] = buffer[b];
+		r++;
+		b++;
+	}
+	buffer[r] = '\0';
 }
